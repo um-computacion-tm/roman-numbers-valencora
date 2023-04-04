@@ -1,95 +1,51 @@
 import unittest
 
-def roman_to_decimal(roman):
+def roman_to_int(s: str) -> int:
+    roman_int = {
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000,
+    }
+    resultado = 0
+    anterior = 0
+    for letra in s:
+        actual = roman_int[letra]
+        resultado += actual
+        if anterior < actual:
+            resultado -= anterior * 2
+        anterior = actual
+    return resultado
 
-    total = 0
+class TestRomanToInt(unittest.TestCase):
 
-    for letter in roman:
+    def test_simple(self):
+        self.assertEqual(roman_to_int("I"), 1)
+        self.assertEqual(roman_to_int("V"), 5)
+        self.assertEqual(roman_to_int("X"), 10)
+        self.assertEqual(roman_to_int("L"), 50)
+        self.assertEqual(roman_to_int("C"), 100)
+        self.assertEqual(roman_to_int("D"), 500)
+        self.assertEqual(roman_to_int("M"), 1000)
 
-        if letter == 'I':
+    def test_suma(self):
+        self.assertEqual(roman_to_int("II"), 2)
+        self.assertEqual(roman_to_int("VI"), 6)
+        self.assertEqual(roman_to_int("XIII"), 13)
+        self.assertEqual(roman_to_int("LX"), 60)
+        self.assertEqual(roman_to_int("MMXXI"), 2021)
+    
+    def test_resta(self):
+        self.assertEqual(roman_to_int("IV"), 4)
+        self.assertEqual(roman_to_int("IX"), 9)
+        self.assertEqual(roman_to_int("XL"), 40)
+        self.assertEqual(roman_to_int("XC"), 90)
+        self.assertEqual(roman_to_int("CD"), 400)
+        self.assertEqual(roman_to_int("CM"), 900)
 
-            total += 1
-
-        elif letter == 'V':
-            
-            if total > 0:
-
-                total = -1
-
-            total += 5
-
-        elif letter == 'X':
-
-            if total > 0:
-
-                total = -1
-
-            total += 10
-
-    return total
-
-
-
-
-class TestRomanToDecimal(unittest.TestCase):
-
-    def test_I(self):
-
-        resultado = roman_to_decimal('I')
-
-        self.assertEqual(resultado, 1)
-
-    def test_II(self):
-
-        resultado = roman_to_decimal('II')
-
-        self.assertEqual(resultado, 2)
-
-    def test_III(self):
-
-        resultado = roman_to_decimal('III')
-
-        self.assertEqual(resultado, 3)
-
-    def test_V(self):
-
-        resultado = roman_to_decimal('V')
-
-        self.assertEqual(resultado, 5)
-
-    def test_X(self):
-
-        resultado = roman_to_decimal('X')
-
-        self.assertEqual(resultado, 10)
-
-    def test_VI(self):
-
-        resultado = roman_to_decimal('VI')
-
-        self.assertEqual(resultado, 6)
-
-    def test_VII(self):
-
-        resultado = roman_to_decimal('VII')
-
-        self.assertEqual(resultado, 7)
-
-    def test_IV(self):
-
-        resultado = roman_to_decimal('IV')
-
-        self.assertEqual(resultado, 4)
-
-    def test_IX(self):
-
-        resultado = roman_to_decimal('IX')
-
-        self.assertEqual(resultado, 9)
-
-
-
+    
 if __name__ == '__main__':
-
     unittest.main()
-
